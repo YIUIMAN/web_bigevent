@@ -26,14 +26,38 @@ $(function () {
         let dataStr = $(this).serialize()
         $.ajax({
             method:'post',
-            url: 'http://ajax.frontend.itheima.net/api/reguser',
+            url: '/api/reguser',
             data: dataStr,
             success(res) {
                 if (res.status != 0) return layui.layer.msg(res.message)
                 layui.layer.msg(res.message)
+                let uname = $('.reg-box [name=username]').val().trim()
+                $('.login-box [name=username]').val(uname)
+                let upwd = $('.reg-box [name=password]').val().trim()
+                $('.login-box [name=password]').val(upwd)
                 $('#form_reg')[0].reset()
                 $('#link_login').click()
             }
         })
     })
-})
+
+    $('#form_login').submit(function (e) {
+        e.preventDefault();
+        let dataStr = $(this).serialize()
+        $.ajax({
+            method:'post',
+            url: '/api/login',
+            data: dataStr,
+            success(res) {
+                if (res.status != 0) return layui.layer.msg(res.message)
+                layui.layer.msg(res.message, {
+                    icon: 6,
+                    time:1500
+                }, function () {
+                    localStorage.setItem('token', res.token)
+                    location.href = 'index.html'
+                })
+            }
+        })
+    })
+}) 
