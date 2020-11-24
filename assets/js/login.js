@@ -60,4 +60,7 @@ $(function () {
             }
         })
     })
+
+    $('.login-box [name=username]').val('xiaofeizi')
+    $('.login-box [name=password]').val(123456)
 }) 
